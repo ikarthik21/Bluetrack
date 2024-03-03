@@ -30,8 +30,7 @@ def make_call(address, phone_number):
     server_sock.close()
 
 def main():
-    
-
+ 
     address = input("Enter the target device's address: ")
     phone_number = input("Enter the phone number: ")
     make_call(address, phone_number)

